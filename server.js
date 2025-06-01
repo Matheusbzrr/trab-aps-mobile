@@ -14,8 +14,13 @@ app.use(cors(corsOptions));
 app.use(express.json());
 
 const yelpRoutes = require("./src/routes/yelpRoutes");
-app.use("/api/yelp", yelpRoutes);
+const emailRoutes = require("./src/routes/emailRoutes");
+const { scrapeExame, scrapeVeja } = require("./src/controller/scrap");
+scrapeExame();
+scrapeVeja();
 
+app.get("/api/yelp", yelpRoutes);
+app.post("/api/email", emailRoutes);
 
 app.get("/", (req, res) => {
   res.send("Welcome to the API!");

@@ -25,7 +25,7 @@ const getRestaurantes = async (req, res) => {
   const gap = req.query.gap ? parseInt(req.query.gap) : undefined;
 
   try {
-    const data = await buscaRestaurantes(city.toString(), gap);
+    const data = await buscaRestaurantes(city, gap);
     if (data.error) {
       return res.status(400).json({ error: data.error });
     }
