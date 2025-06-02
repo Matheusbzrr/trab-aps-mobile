@@ -15,12 +15,11 @@ app.use(express.json());
 
 const yelpRoutes = require("./src/routes/yelpRoutes");
 const emailRoutes = require("./src/routes/emailRoutes");
-const { scrapeExame, scrapeVeja } = require("./src/controller/scrap");
-scrapeExame();
-scrapeVeja();
+const llmRoutes = require("./src/routes/llmRoutes");
 
-app.get("/api/yelp", yelpRoutes);
-app.post("/api/email", emailRoutes);
+app.use("/api/yelp", yelpRoutes);
+app.use("/api/email", emailRoutes);
+app.use("/api/llm", llmRoutes);
 
 app.get("/", (req, res) => {
   res.send("Welcome to the API!");

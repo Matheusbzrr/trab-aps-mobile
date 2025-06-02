@@ -1,0 +1,3 @@
+{
+  "ignore": ["restaurantes.json", "node_modules", "logs"]
+}
