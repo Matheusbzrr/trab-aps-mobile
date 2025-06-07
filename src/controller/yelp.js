@@ -17,28 +17,28 @@ const buscaRestaurantes = async (city, gap) => {
 };
 
 const getRestaurantes = async (req, res) => {
-  // if (req.query.id) {
-  //   const api = `https://api.yelp.com/v3/businesses/${req.query.id}`;
-  //   const response = await axios.get(api, {
-  //     headers: {
-  //       Authorization: `Bearer ${process.env.TOKEN_YELP}`,
-  //     },
-  //   });
+  if (req.query.id) {
+    const api = `https://api.yelp.com/v3/businesses/${req.query.id}`;
+    const response = await axios.get(api, {
+      headers: {
+        Authorization: `Bearer ${process.env.TOKEN_YELP}`,
+      },
+    });
 
-  //   const item = response.data;
+    const item = response.data;
 
-  //   const resultado = {
-  //     id: item.id || "",
-  //     nome: item.name || "",
-  //     imagem: item.image_url || "",
-  //     valor: item.price || "",
-  //     avaliacao: item.rating || 0,
-  //     endereco: item.location.display_address.join(", "),
-  //     telefone: item.display_phone || "",
-  //   };
+    const resultado = {
+      id: item.id || "",
+      nome: item.name || "",
+      imagem: item.image_url || "",
+      valor: item.price || "",
+      avaliacao: item.rating || 0,
+      endereco: item.location.display_address.join(", "),
+      telefone: item.display_phone || "",
+    };
 
-  //   return res.status(200).json(resultado);
-  // }
+    return res.status(200).json(resultado);
+  }
   if (!req.query.city) {
     return res.status(400).json({ error: "City parameter is required" });
   }
