@@ -1,21 +1,22 @@
 # 🍽️ FoodFinder API - Backend
 
-Bem-vindo ao repositório do backend do FoodFinder! Este servidor é a espinha dorsal do nosso aplicativo móvel, responsável por processar todas as requisições, se comunicar com serviços externos e fornecer os dados necessários para a busca de restaurantes, sugestões de IA e conteúdo da newsletter.
+Bem-vindo ao repositório do backend do FoodFinder! Este servidor é a espinha dorsal do nosso aplicativo móvel, responsável por processar todas as requisições, se comunicar com serviços externos e fornecer os dados necessários para o app funcionar.
 
 ## ✨ Funcionalidades Principais
 
 -   **API Gateway:** Ponto central que recebe as requisições do aplicativo React Native.
 -   **Busca de Restaurantes:** Integração com a **[Yelp Fusion API](https://fusion.yelp.com/)** para buscar informações detalhadas sobre restaurantes com base na localização fornecida pelo usuário.
 -   **Sugestões com IA:** Utiliza o poder do **[Groq](https://groq.com/)** para alimentar um modelo de linguagem (LLM). O modelo foi treinado com dados obtidos via web scraping para fornecer recomendações inteligentes e personalizadas de onde comer.
--   **Geração de Conteúdo para Newsletter:** Emprega técnicas de **Web Scraping** para coletar notícias, eventos e destaques do mundo gastronômico, gerando conteúdo relevante para os assinantes da newsletter.
--   **Gerenciamento de Usuários:** Endpoints para lidar com funcionalidades como favoritar restaurantes e gerenciar inscrições na newsletter (requer um banco de dados).
+-   **Geração de Conteúdo para Newsletter:** Emprega técnicas de **Web Scraping** para coletar notícias e destaques do mundo gastronômico.
+-   **Disparo de E-mails:** Serviço para envio de e-mails, utilizado para distribuir a newsletter para os usuários inscritos.
 
 ## 🚀 Tecnologias e Serviços
 
 -   **Node.js:** Ambiente de execução para o JavaScript no lado do servidor.
--   **Express.js:** (Ou seu framework de preferência) Framework minimalista para a construção da API.
--   **Yelp Fusion API:** Serviço utilizado para a busca e obtenção de dados de restaurantes.
--   **Groq:** Plataforma de inferência de LLM para fornecer respostas rápidas e inteligentes nas sugestões.
+-   **Express.js:** (Ou seu framework de preferência) Framework para a construção da API.
+-   **Yelp Fusion API:** Serviço para a busca e obtenção de dados de restaurantes.
+-   **Groq:** Plataforma de inferência de LLM para as sugestões da IA.
+-   **Nodemailer:** (Ou similar) Biblioteca para o envio de e-mails.
 -   **Web Scraping:** Bibliotecas como [Cheerio](https://cheerio.js.org/) ou [Puppeteer](https://pptr.dev/) para extrair dados de websites.
 
 ## 🏁 Começando
@@ -47,30 +48,41 @@ Siga as instruções abaixo para configurar e executar o servidor em sua máquin
 
 ### **Configuração do Ambiente**
 
-Este projeto requer chaves de API para se conectar com os serviços da Yelp e da Groq.
+Este projeto requer chaves de API e credenciais para se conectar com os serviços externos.
 
-1.  **Crie um arquivo `.env`** na raiz do projeto. Você pode copiar o arquivo de exemplo:
-    ```bash
-    cp .env.example .env
-    ```
+1.  **Crie um arquivo `.env`** na raiz do projeto. Você pode criar um arquivo novo ou copiar o de exemplo, caso exista (`cp .env.example .env`).
 
-2.  **Edite o arquivo `.env`** com suas chaves de API e outras configurações necessárias.
+2.  **Edite o arquivo `.env`** com suas chaves e credenciais. A estrutura deve ser a seguinte:
+
     ```env
     # Arquivo .env
 
-    # Porta em que o servidor irá rodar
-    PORT=3000
+    # Chave de API da Groq
+    # Obtenha em: [https://console.groq.com/keys](https://console.groq.com/keys)
+    GROQ_API_KEY=
 
     # Chave de API da Yelp Fusion
     # Obtenha em: [https://fusion.yelp.com/](https://fusion.yelp.com/)
-    YELP_API_KEY="SUA_CHAVE_DE_API_DA_YELP_AQUI"
+    TOKEN_YELP=
 
-    # Chave de API da Groq
-    # Obtenha em: [https://console.groq.com/keys](https://console.groq.com/keys)
-    GROQ_API_KEY="SUA_CHAVE_DE_API_DA_GROQ_AQUI"
+    # --- Credenciais do Serviço de E-mail (ex: SMTP do Gmail, Mailtrap, etc.) ---
 
-    # (Opcional) URL do seu banco de dados, se aplicável
-    # DATABASE_URL="SUA_URL_DE_CONEXAO_AQUI"
+    # Host do servidor de e-mail (ex: "smtp.gmail.com")
+    EMAIL_HOST=
+
+    # Porta do servidor de e-mail (ex: 587 para TLS)
+    EMAIL_PORT=
+
+    # Usuário para autenticação no servidor de e-mail
+    EMAIL_USER=
+
+    # Senha para autenticação no servidor de e-mail
+    EMAIL_PASS=
+    
+    # --- Configurações do Servidor ---
+
+    # Porta em que o servidor irá rodar
+    PORT=3000
     ```
 
 ### **Executando o Servidor**
@@ -79,19 +91,5 @@ Após instalar as dependências e configurar o ambiente, você pode iniciar o se
 
 ```bash
 # Inicia o servidor em modo de desenvolvimento (com hot-reload, se configurado)
-npm run dev
-
-# Ou, para iniciar em modo de produção:
 npm start
 ```
-Se tudo estiver configurado corretamente, você verá uma mensagem no terminal indicando que o servidor está em execução na porta definida no seu arquivo `.env` (por padrão, `http://localhost:3000`).
-
-## API Endpoints
-
-Uma visão geral dos principais endpoints disponíveis:
-
--   `GET /restaurants?city=nome_da_cidade`: Busca restaurantes em uma cidade específica.
--   `POST /suggest`: Envia um prompt para a IA e recebe uma sugestão de restaurante.
--   `POST /newsletter/subscribe`: Inscreve um usuário na newsletter.
-
----
